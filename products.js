@@ -75,5 +75,5 @@ async function connect() {
 // collection.deleteMany({id:1},{id:2},{id:3},{id:4},{id:5});
 connect();
 //  collection.insertMany(cars);
-module.exports = mongoose.model('cars', car_Schema);;
+module.exports = mongoose.model('cars', car_Schema);
 

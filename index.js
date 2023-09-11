@@ -26,22 +26,21 @@ server.get('/cars', async (req, res) => {
 
 server.get('/cars/:id', async (req, res) => {
     try {
-        const car = await cars.findOne({ id: req.params.id });
+        const car = await cars.findOne({id: req.params.id});
 
-        if (!car) {
+        if (! car) {
             return res.status(404).send('Car not found');
         }
 
         res.status(200).send(car);
-    } catch (error) {
-        // Handle any errors that may occur during the query or response sending.
+    } catch (error) { 
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });
 
-server.post('/cars', (req, res) => {
-   //id: cars.length + 1,
+server.post('/cars', (req, res) => { 
+    // id: cars.length + 1,
     const car = req.body
 
     yupObject.validate(car).then(() => {
@@ -56,8 +55,8 @@ server.post('/cars', (req, res) => {
 });
 
 
-server.patch('/cars/:id', async(req, res) => {
-        const car = await cars.findOne({ id: req.params.id });
+server.patch('/cars/:id', async (req, res) => {
+    const car = await cars.findOne({id: req.params.id});
 
     const data = req.body;
     if (car) {
@@ -68,10 +67,10 @@ server.patch('/cars/:id', async(req, res) => {
     }
 });
 
-server.delete('/cars/:id', (req, res) => {
-    const car_index = cars.findIndex(car => car.id === parseInt(req.params.id));
-    if (car_index > -1) {
-        cars.splice(car_index, 1);
+server.delete('/cars/:id', async (req, res) => {
+    const car = await cars.findOne({id: req.params.id});
+    if (car) {
+        await cars.deleteOne({id: req.params.id});
         res.send("Car deleted").status(200);
     } else {
         res.status(404).send("Car not found");
